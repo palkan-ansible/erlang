@@ -1,18 +1,18 @@
 ---
-- name: Checking installed version of erlang
+- name: Erlang | Checking installed version
   shell: erl -eval 'erlang:display(erlang:system_info(otp_release)), halt().'  -noshell | grep -o "{{ erlang_check_version }}"
   register: _installed
   ignore_errors: True
 
-- name: Download erlang
+- name: Erlang | Download
   get_url: "url={{ erlang_url }} dest={{ erlang_tmp_path }}.tar"
   when: _installed.rc == 1
 
-- name: Extract erlang
+- name: Erlang | Extract
   command: tar -zxf "{{ erlang_tmp_path }}.tar"
   when: _installed.rc == 1
 
-- name: Make, configure, and install erlang
+- name: Erlang | Make, configure, and install
   command: "{{ item }} chdir={{ erlang_name }}"
   with_items:
     - ./configure
