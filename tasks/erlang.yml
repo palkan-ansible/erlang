@@ -12,10 +12,17 @@
   command: tar -zxf "{{ erlang_tmp_path }}.tar"
   when: _installed.rc == 1
 
-- name: Erlang | Make, configure, and install
+- name: Erlang | Make and configure
   command: "{{ item }} chdir={{ erlang_name }}"
   with_items:
     - ./configure
     - make
     - sudo make install
+  when: _installed.rc == 1
+
+- name: Erlang | Install
+  command: "{{ item }} chdir={{ erlang_name }}"
+  become: yes
+  with_items:
+    - make install
   when: _installed.rc == 1
