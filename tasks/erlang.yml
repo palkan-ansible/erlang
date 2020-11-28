@@ -17,7 +17,6 @@
   with_items:
     - ./configure
     - make
-    - sudo make install
   when: _installed.rc == 1
 
 - name: Erlang | Install
